@@ -8,9 +8,20 @@ uint32_t read_file(char*filename){
     uint32_t num;
 
     if(fp == NULL){
-        exit(1);
+        printf("file not found\n");
+        exit(0);
+    }
+    long int currentPosition = ftell(fp);
+
+    fseek(fp, 0, SEEK_END);
+    long int size = ftell(fp);
+    
+    if(size < 4){
+        printf("file size error\n");
+        exit(0);
     }
 
+    fseek(fp, currentPosition, SEEK_SET);
     fread(&num, sizeof(uint32_t), 1, fp);
 
     fclose(fp);
